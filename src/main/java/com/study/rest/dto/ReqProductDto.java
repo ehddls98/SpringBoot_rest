@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReqProductDto {
-    private String ProductName;
+    private String productName;
     private int price;
     private int sizeId;
     private int colorId;

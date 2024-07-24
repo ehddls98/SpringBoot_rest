@@ -1,19 +1,22 @@
 package com.study.rest.Controller;
 
+import com.study.rest.dto.ProductDto;
 import com.study.rest.dto.ReqProductDto;
 import com.study.rest.dto.ReqStudentDto;
 import com.study.rest.dto.ReqTeacherDto;
+import com.study.rest.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // REST API
 @Slf4j
 @RestController //responsebody와 controller가 들어있다.
 public class BasicController {
+
+    @Autowired
+    private ProductService productService;
 
     /**
      *
@@ -64,9 +67,20 @@ public class BasicController {
     }
 
     @CrossOrigin
-    @PostMapping("/basic/product")
-    public ResponseEntity<?> registerProduct(@RequestBody ReqProductDto reqProductDto) {
-        log.info("{}", reqProductDto);
-        return ResponseEntity.ok().body(null);
+    @PostMapping("/api/v1/product")
+    public ResponseEntity<?> registerProduct(@RequestBody ProductDto.Register register) { //post 요청으로 받은 JSON 데이터를 JACKSON을 통해 DTO로 변환
+        return ResponseEntity.ok().body(productService.registerProduct(register));
+    }
+
+    @CrossOrigin
+    @GetMapping("/api/v1/sizes")
+    public ResponseEntity<?> sizeListApi() {
+        return ResponseEntity.ok().body(productService.getSizeListAll());
+    }
+
+    @CrossOrigin
+    @GetMapping("/api/v1/colors")
+    public ResponseEntity<?> colorListApi() {
+        return ResponseEntity.ok().body(productService.getColorListAll());
     }
 }
