@@ -9,6 +9,7 @@ public class TestConfig {
 
     @Bean
     public TypedValue typedValue() {
+
         return new TypedValue(null);
     }
 }

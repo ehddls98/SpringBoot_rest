@@ -1,9 +1,6 @@
 package com.study.rest.Controller;
 
-import com.study.rest.dto.ProductDto;
-import com.study.rest.dto.ReqProductDto;
-import com.study.rest.dto.ReqStudentDto;
-import com.study.rest.dto.ReqTeacherDto;
+import com.study.rest.dto.*;
 import com.study.rest.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +65,12 @@ public class BasicController {
 
     @CrossOrigin
     @PostMapping("/api/v1/product")
-    public ResponseEntity<?> registerProduct(@RequestBody ProductDto.Register register) { //post 요청으로 받은 JSON 데이터를 JACKSON을 통해 DTO로 변환
+    //post 요청으로 받은 JSON 데이터를 @RequestBody를 통해 ProductDto.Register 객체로 변환(JACKSON 라이브러리)
+    public ResponseEntity<?> registerProduct(@RequestBody ProductDto.Register register) {
         return ResponseEntity.ok().body(productService.registerProduct(register));
+        //productService.registerProduct(register) 메서드가 실행되면 최종적으로 CommonResponseDto 객체가 반환된다.
+        //그러면 반환된 CommonResponseDto 객체를 ResponseEntity의 body에 담아서 반환한다.
+        //.ok() 메서드는 상태코드 200을 반환한다.
     }
 
     @CrossOrigin
@@ -82,5 +83,19 @@ public class BasicController {
     @GetMapping("/api/v1/colors")
     public ResponseEntity<?> colorListApi() {
         return ResponseEntity.ok().body(productService.getColorListAll());
+    }
+
+    @CrossOrigin
+    @PostMapping("/api/v1/size")
+    public ResponseEntity<?> registerSizeApi(@RequestBody ReqRegisterSizeDto reqRegisterSizeDto) {
+        log.info("{}", reqRegisterSizeDto);
+        return ResponseEntity.ok().body(productService.registerSize(reqRegisterSizeDto));
+    }
+
+    @CrossOrigin
+    @PostMapping("/api/v1/color")
+    public ResponseEntity<?> registerColorApi(@RequestBody ReqRegisterColorDto reqRegisterColorDto) {
+        log.info("{}", reqRegisterColorDto);
+        return ResponseEntity.ok().body(productService.registerColor(reqRegisterColorDto));
     }
 }
